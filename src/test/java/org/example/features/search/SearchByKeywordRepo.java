@@ -20,19 +20,30 @@ public class SearchByKeywordRepo {
     public EndUserSteps anna;
 
     @Test
-    public void searching_by_keyword_apple_should_display_the_corresponding_article() {
-        anna.is_the_home_page();
-        anna.searches_and_enters("xd");
-        anna.should_see_repository("43,116 repository results");
+    public void searching_for_pizza_takes_you_to_page_for_pizza() {
+        anna.opens_the_home_page();
+        anna.searches_and_enters("pizza");
+        anna.should_see_title("Pizza");
     }
 
     @Test
-    public void searching_by_keyword_banana_should_display_the_corresponding_article() {
-        anna.is_the_home_page();
-        anna.should_see_repository("An edible fruit produced by the pear tree, similar to an apple but elongated towards the stem.");
+    public void searching_three_spaces_wont_return_results() {
+        anna.opens_the_home_page();
+        anna.searches_and_enters(" ");
+        anna.should_see_no_results();
     }
 
     @Test
-    public void searching_by_ambiguious_keyword_should_display_the_disambiguation_page() {
+    public void entering_small_amount_shows_error() {
+        anna.opens_the_donation_page();
+        anna.enters_donation_amount("4.54");
+        anna.sees_error();
     }
-} 
+
+    @Test
+    public void entering_large_amount_shows_no_error() {
+        anna.opens_the_donation_page();
+        anna.enters_donation_amount("4.56");
+        anna.sees_no_error();
+    }
+}
