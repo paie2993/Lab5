@@ -1,6 +1,7 @@
 package org.example.steps.serenity;
 
 import net.thucydides.core.annotations.Step;
+import org.example.pages.DictionaryPage;
 import org.example.pages.Wikipedia;
 import org.example.pages.WikipediaDonationPage;
 
@@ -11,6 +12,8 @@ public class EndUserSteps {
 
     Wikipedia wikipedia;
     WikipediaDonationPage wikipediaDonationPage;
+
+    DictionaryPage dictionaryPage;
 
     @Step
     public void searches_and_enters(String keyword) {
@@ -50,5 +53,31 @@ public class EndUserSteps {
     @Step
     public void sees_no_error() {
         assertThat(wikipediaDonationPage.hasSmallAmountErrorText(), is(false));
+    }
+
+    @Step
+    public void enters(String keyword) {
+        dictionaryPage.enter_keywords(keyword);
+    }
+
+    @Step
+    public void starts_search() {
+        dictionaryPage.lookup_terms();
+    }
+
+    @Step
+    public void should_see_definition(String definition) {
+        assertThat(dictionaryPage.getDefinitions(), hasItem(containsString(definition)));
+    }
+
+    @Step
+    public void is_the_home_page() {
+        dictionaryPage.open();
+    }
+
+    @Step
+    public void looks_for(String term) {
+        enters(term);
+        starts_search();
     }
 }
